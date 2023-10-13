@@ -1,30 +1,33 @@
-import 'dotenv/config';
-import express from 'express';
-import path from 'path';
-import router from './routes/main';
+import "dotenv/config";
+import express from "express";
+import path from "path";
+import fileUpload from "express-fileupload";
+import routerUser from "./routes/routerUser";
+import routerAdmin from "./routes/routerAdmin";
+import { createTables, fillTables } from "./services";
+import { jobBackup, jobDeleteBook } from "./configurations/cron";
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-app.use(express.static('static'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "../static")));
 
-//app.use(router);
+app.use(fileUpload());
 
-app.get('/', (req,res) => {
-    //res.render('../ejs-views/book-page.ejs');
-    res.render('../ejs-views/books-page.ejs');
+app.use(routerUser);
+app.use("/admin", routerAdmin);
+
+(function startWork() {
+  createTables();
+  fillTables();
+
+  jobBackup.start();
+  jobDeleteBook.start();
+})();
+
+app.listen(process.env.PORT, () => {
+  console.log("Server started at " + process.env.PORT);
 });
-app.get('/book:id', (req,res) => {
-    res.render('../ejs-views/book-page.ejs', );
-
-});
-
-
-
-
-app.listen(process.env.PORT || 3000, ()=> {
-    console.log('Server started at ' + process.env.PORT || 3000);
-})

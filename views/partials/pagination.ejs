@@ -1,0 +1,39 @@
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+
+        <!-- For 'Previous' button -->
+        <% if(Number(count) <=startCountBooks ){ %>
+            <li class="" style="display: none;">
+                <a class="" href="#">Previous</a>
+            </li>
+            <% } else {%>
+                <% if(Number(count) - step < startCountBooks ){ %>
+                    <li class="">
+                        <a class="btn btn-primary" href="<%=host%>/?count=<%= startCountBooks %>">Previous</a>
+                    </li>
+                    <% } else {%>
+                        <li class="">
+                            <a class="btn btn-primary" href="<%=host%>/?count=<%= Number(count)-step %>">Previous</a>
+                        </li>
+                        <% } %>
+                            <% } %>
+                                <!-- For 'Next' button -->
+                                <% if(totalBooks <=Number(count)) {%>
+                                    <li class="" style="display: none;">
+                                        <a class="" href="#">Next</a>
+                                    </li>
+                                    <% } else {%>
+                                        <% if(totalBooks - Number(count) <=10 ){ %>
+                                            <li class="">
+                                                <a class="btn btn-primary"
+                                                    href="<%=host%>/?count=<%= Number(count)+(totalBooks - Number(count))%>">Next</a>
+                                            </li>
+                                            <% } else { %>
+                                                <li class="">
+                                                    <a class="btn btn-primary"
+                                                        href="<%=host%>/?count=<%= Number(count)+step %>">Next</a>
+                                                </li>
+                                                <% } %>
+                                                    <% } %>
+    </ul>
+</nav>
