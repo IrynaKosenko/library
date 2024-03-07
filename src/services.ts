@@ -17,16 +17,18 @@ export function readSqlFile(path: string): string {
 The method triggers the creating of tables for database
 if they are not existed.
 */
-export const createTables = async () => {
+export async function createTables() {
   const queryFromFile = readSqlFile(
     path.resolve(__dirname, "../mySQL/createTables.sql")
   );
   try {
-    pool.query(queryFromFile, (err, rows) => {
-      if (err) console.log(err.message);
-    });
-  } catch (error) {}
-};
+    await pool.query(queryFromFile);
+    console.log("Tables have been created");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 /*
 The method triggers the filling of tables in the database
 if they are not filled.
@@ -36,10 +38,11 @@ export const fillTables = async () => {
     path.resolve(__dirname, "../mySQL/fillTables.sql")
   );
   try {
-    pool.query(queryFromFile, (err, rows) => {
-      if (err) console.log(err.message);
-    });
-  } catch (error) {}
+    await pool.query(queryFromFile);
+    console.log("Tables have been filled");
+  } catch (error) {
+    console.log(error);
+  }
 };
 /** 
 This method returns the total number of books in the database 
@@ -47,9 +50,7 @@ used to display page pagination.
 */
 export const getCountAllBooks = async () => {
   const allBooks: Array<IBook> = await new Promise((resolve, reject) => {
-    pool.query<IBook[]>(queryString.getAllBooksAndAuthors, (err, result) => {
-      resolve(result);
-    });
+    return pool.query<IBook[]>(queryString.getAllBooksAndAuthors);
   });
   return allBooks.length;
 };
@@ -66,9 +67,7 @@ complete removal of the book.
 */
 
 export const deleteBooksFinal = async () => {
-  const booksMarked = await pool
-    .promise()
-    .query(queryString.selectBooksMarksAsDeleted);
+  const booksMarked = await pool.query(queryString.selectBooksMarksAsDeleted);
 
   const arrayBooksToDelete: IBook[] = JSON.parse(
     JSON.stringify(booksMarked)
@@ -77,14 +76,12 @@ export const deleteBooksFinal = async () => {
 
   if (arrayID.length > 0) {
     arrayID.forEach((bookId) => {
-      pool.query(
-        queryString.deleteBooksMarksAsDeleted,
-        [bookId, bookId, bookId],
-        (err, row) => {
-          if (err) console.log(err.message);
-          console.log("deleted book: " + bookId);
-        }
-      );
+      pool.query(queryString.deleteBooksMarksAsDeleted, [
+        bookId,
+        bookId,
+        bookId,
+      ]);
+      console.log("deleted book: " + bookId);
     });
   } else {
     console.log("Nothing to delete.");

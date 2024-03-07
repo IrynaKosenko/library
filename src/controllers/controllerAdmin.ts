@@ -23,26 +23,36 @@ class ControllerAdmin {
       countOnPage = totalBooks - countOnPage * (numberOfPages - 1);
     }
 
-    pool.query<IBook[]>(
+    const books = await pool.query<IBook[]>(
       queryString.getBooksForAdminPage,
-      [countOnPage, offset],
-      (err, books) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          res.render("admin", {
-            books: books,
-            offset: offset,
-            limit: countOnPage,
-            host: process.env.HOME_HOST,
-            title: "Admin Page",
-            totalBooks: totalBooks,
-            numberOfPages: numberOfPages,
-            currentPage: currentPage,
-          });
-        }
-      }
+      [countOnPage, offset]
+      // (err, books) => {
+      //   if (err) {
+      //     console.log(err.message);
+      //   } else {
+      //     res.render("admin", {
+      //       books: books,
+      //       offset: offset,
+      //       limit: countOnPage,
+      //       host: process.env.HOME_HOST,
+      //       title: "Admin Page",
+      //       totalBooks: totalBooks,
+      //       numberOfPages: numberOfPages,
+      //       currentPage: currentPage,
+      //     });
+      //   }
+      // }
     );
+    res.render("admin", {
+      books: books,
+      offset: offset,
+      limit: countOnPage,
+      host: process.env.HOME_HOST,
+      title: "Admin Page",
+      totalBooks: totalBooks,
+      numberOfPages: numberOfPages,
+      currentPage: currentPage,
+    });
   }
 
   async addNewBook(req: Request, res: Response) {

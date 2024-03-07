@@ -6,6 +6,7 @@ import routerUser from "./routes/routerUser";
 import routerAdmin from "./routes/routerAdmin";
 import { createTables, fillTables } from "./services";
 import { jobBackup, jobDeleteBook } from "./configurations/cron";
+import pool from "./configurations/configConnectMySQL";
 
 const app = express();
 
@@ -19,6 +20,15 @@ app.use(fileUpload());
 
 app.use(routerUser);
 app.use("/admin", routerAdmin);
+
+(async () => {
+  try {
+    await pool.getConnection();
+    console.log("MySQL database is connected");
+  } catch (error) {
+    console.log("Error connecting to the MYSQL server: ", error);
+  }
+})();
 
 (function startWork() {
   createTables();

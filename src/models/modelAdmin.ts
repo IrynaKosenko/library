@@ -10,14 +10,9 @@ import fileUpload from "express-fileupload";
 import path from "path";
 
 export async function marksAsDeleted(id: string, res: Response) {
-  pool.query(queryString.markAsDeleted, id, (err, row) => {
-    if (err) console.log(err);
-    else {
-      pool.query<IBook[]>(queryString.getDeletedBookById, id, (err, book) => {
-        res.send(book[0]);
-      });
-    }
-  });
+  await pool.query(queryString.markAsDeleted, id);
+  const book = await pool.query<IBook[]>(queryString.getDeletedBookById, id);
+  res.send(book[0]);
 }
 
 export async function insertNewBook(
@@ -31,42 +26,28 @@ export async function insertNewBook(
   res: Response
 ) {
   if (Array.isArray(authors)) {
-    pool.query(queryString.insertNewBook, title, async () => {
-      let maxBookId = await getMaxBookId();
-      addCountAuthors(authors, maxBookId);
-      insertDescription(maxBookId, yearBook, pages, description, isbn);
-      downloadImage(files, res, maxBookId);
-    });
+    await pool.query(queryString.insertNewBook, title);
+    let maxBookId = await getMaxBookId();
+    addCountAuthors(authors, maxBookId);
+    insertDescription(maxBookId, yearBook, pages, description, isbn);
+    downloadImage(files, res, maxBookId);
   } else {
-    pool.query(
-      queryString.insertNewBookAndAuthor,
-      [title, authors],
-      async (err, books) => {
-        if (err) {
-          console.log(err.message);
-        } else {
-          let maxBookId = await getMaxBookId();
-          let maxAuthorId = await getMaxAuthorId();
-          addRelations(maxBookId, maxAuthorId);
-          insertDescription(maxBookId, yearBook, pages, description, isbn);
-          downloadImage(files, res, maxBookId);
-        }
-      }
-    );
+    await pool.query(queryString.insertNewBookAndAuthor, [title, authors]);
+    let maxBookId = await getMaxBookId();
+    let maxAuthorId = await getMaxAuthorId();
+    addRelations(maxBookId, maxAuthorId);
+    insertDescription(maxBookId, yearBook, pages, description, isbn);
+    downloadImage(files, res, maxBookId);
   }
 }
 
 async function addCountAuthors(authors: string | string[], maxBookId: number) {
   for (let i = 0; i < authors.length; i++) {
-    pool.query<IBook[]>(
-      queryString.insertNewAuthor,
-      [authors[i]],
-      async (err, row) => {
-        if (err) console.log(err);
-        let maxAuthorId = row[0]["insertId"];
-        addRelations(maxBookId, maxAuthorId);
-      }
-    );
+    const [row] = await pool.query<IBook[]>(queryString.insertNewAuthor, [
+      authors[i],
+    ]);
+    let maxAuthorId = row[0]["insertId"];
+    await addRelations(maxBookId, maxAuthorId);
   }
 }
 
@@ -82,15 +63,13 @@ async function insertDescription(
 }
 
 async function getMaxBookId() {
-  const lastBookId = await pool.promise().query(queryString.selectMaxBookId);
+  const lastBookId = await pool.query(queryString.selectMaxBookId);
   let maxBookId = JSON.parse(JSON.stringify(lastBookId))[0][0].max_book_id;
   return maxBookId;
 }
 
 async function getMaxAuthorId() {
-  const lastAuthorId = await pool
-    .promise()
-    .query(queryString.selectMaxAuthorId);
+  const lastAuthorId = await pool.query(queryString.selectMaxAuthorId);
   let maxAuthorId = JSON.parse(JSON.stringify(lastAuthorId))[0][0]
     .max_author_id;
   return maxAuthorId;
@@ -128,7 +107,5 @@ async function downloadImage(files: any, res: Response, maxBookId: number) {
   });
 }
 export async function cancelDeleting(id: string) {
-  pool.query(queryString.cancelDeletingBook, id, (err, row) => {
-    if (err) console.log(err);
-  });
+  await pool.query(queryString.cancelDeletingBook, id);
 }

@@ -5,17 +5,11 @@ export const configDB = {
   user: process.env.USER_SQL || "",
   password: process.env.PASSWORD_SQL || "",
   database: process.env.DB_SQL || "",
+  connectionLimit: 10,
+  waitForConnections: true,
+  multipleStatements: true,
 };
 
-const pool = mysql2.createPool({
-  ...configDB,
-  connectionLimit: 10,
-  multipleStatements: true,
-});
-
-pool.getConnection((err, connect) => {
-  if (err) console.log(err);
-  console.log("MySQL database is connected");
-});
+const pool = mysql2.createPool(configDB).promise();
 
 export default pool;
