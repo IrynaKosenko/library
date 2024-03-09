@@ -1,0 +1,57 @@
+version: "3.1"
+networks:
+  library_network:
+    driver: bridge
+
+services:
+  mysql-db:
+    image: mysql
+    container_name: mysql-db
+    ports:
+      - ${MYSQL_DATABASE_PORT}:${MYSQL_PORT}
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DATABASE}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - myapp:/home/app
+    restart: always
+    networks:
+      - library_network
+
+  library:
+    image: irynakos/school-library:latest
+    container_name: library
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - library_network
+    env_file:
+      - .env
+    depends_on:
+      - mysql-db
+      - phpmyadmin
+    environment:
+      MYSQL_DATABASE_HOST: ${MYSQL_DATABASE_HOST}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_PORT: ${MYSQL_DATABASE_PORT}
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - library_network
+    links:
+      - mysql-db
+volumes:
+  myapp:

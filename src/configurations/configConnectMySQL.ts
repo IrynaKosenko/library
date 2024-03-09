@@ -1,7 +1,7 @@
 import mysql2 from "mysql2";
 
 export const configDB = {
-  host: process.env.HOST || "",
+  host: process.env.MYSQL_DATABASE_HOST || "",
   user: process.env.USER_SQL || "",
   password: process.env.PASSWORD_SQL || "",
   database: process.env.DB_SQL || "",
