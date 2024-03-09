@@ -49,10 +49,8 @@ This method returns the total number of books in the database
 used to display page pagination.
 */
 export const getCountAllBooks = async () => {
-  const allBooks: Array<IBook> = await new Promise((resolve, reject) => {
-    return pool.query<IBook[]>(queryString.getAllBooksAndAuthors);
-  });
-  return allBooks.length;
+  const allBooks = await pool.query<IBook[]>(queryString.getAllBooksAndAuthors);
+  return allBooks[0].length;
 };
 /* 
 This method returns the current time to generate the backup file name.

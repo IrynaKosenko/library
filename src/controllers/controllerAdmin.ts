@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
-import pool from "../configurations/configConnectMySQL";
-import { IBook } from "../interfaces";
 import { getCountAllBooks } from "../services";
-import queryString from "../queryStringSQL";
 import {
   marksAsDeleted,
   insertNewBook,
   cancelDeleting,
+  getSearchedBooksFromDB,
+  getBooksForAdminPage,
 } from "../models/modelAdmin";
 
 class ControllerAdmin {
   async showBooksAdmin(req: Request, res: Response) {
     let countOnPage = 6;
+    let { search } = req.query;
 
     const currentPage = !req.query.page ? 1 : req.query.page;
     let offset = (+currentPage - 1) * countOnPage;
@@ -23,36 +23,29 @@ class ControllerAdmin {
       countOnPage = totalBooks - countOnPage * (numberOfPages - 1);
     }
 
-    const books = await pool.query<IBook[]>(
-      queryString.getBooksForAdminPage,
-      [countOnPage, offset]
-      // (err, books) => {
-      //   if (err) {
-      //     console.log(err.message);
-      //   } else {
-      //     res.render("admin", {
-      //       books: books,
-      //       offset: offset,
-      //       limit: countOnPage,
-      //       host: process.env.HOME_HOST,
-      //       title: "Admin Page",
-      //       totalBooks: totalBooks,
-      //       numberOfPages: numberOfPages,
-      //       currentPage: currentPage,
-      //     });
-      //   }
-      // }
-    );
-    res.render("admin", {
-      books: books,
-      offset: offset,
-      limit: countOnPage,
-      host: process.env.HOME_HOST,
-      title: "Admin Page",
-      totalBooks: totalBooks,
-      numberOfPages: numberOfPages,
-      currentPage: currentPage,
-    });
+    try {
+      if (search) {
+        let checkedSearch: string = search.toString().replace(/<\/*.*?>/gi, "");
+        await getSearchedBooksFromDB(
+          checkedSearch,
+          countOnPage,
+          numberOfPages,
+          currentPage,
+          res
+        );
+      } else {
+        await getBooksForAdminPage(
+          offset,
+          countOnPage,
+          totalBooks,
+          numberOfPages,
+          currentPage,
+          res
+        );
+      }
+    } catch (error) {
+      console.log("Error database: " + error);
+    }
   }
 
   async addNewBook(req: Request, res: Response) {

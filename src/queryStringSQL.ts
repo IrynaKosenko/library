@@ -8,7 +8,7 @@ const queryString = {
     FROM book_author
     INNER JOIN books on book_author.book_id=books.id
     INNER JOIN authors on book_author.author_id=authors.id
-    where books.deleted=0
+    where books.deleted IS NULL
     GROUP BY books.id;`,
 
   getCountBooksAndAuthors: `SELECT books.*, description_book.image, 
@@ -17,7 +17,7 @@ const queryString = {
     INNER JOIN books on book_author.book_id=books.id
     INNER JOIN authors on book_author.author_id=authors.id
     INNER JOIN description_book on book_author.book_id=description_book.book_id
-    where books.deleted=0
+    where books.deleted IS NULL
     GROUP BY books.id
     limit ? OFFSET 0;`,
 
@@ -32,7 +32,7 @@ const queryString = {
     INNER JOIN books on book_author.book_id=books.id
     INNER JOIN authors on book_author.author_id=authors.id
     INNER JOIN description_book on book_author.book_id=description_book.book_id
-    where books.deleted=0 AND books.id=?;`,
+    where books.deleted IS NULL AND books.id=?;`,
 
   getDeletedBookById: `SELECT books.*, GROUP_CONCAT(authors.author SEPARATOR ', ') as authorsNames 
     FROM book_author
@@ -44,7 +44,7 @@ const queryString = {
     FROM book_author
     INNER JOIN books on book_author.book_id=books.id
     INNER JOIN authors on book_author.author_id=authors.id
-    where books.id=? and books.deleted=0;`,
+    where books.id=? and books.deleted IS NULL;`,
 
   getSearchedBooks: `SELECT books.id, books.title, 
    description_book.image, 
@@ -54,7 +54,7 @@ const queryString = {
     INNER JOIN books on book_author.book_id=books.id
     INNER JOIN authors on book_author.author_id=authors.id
     INNER JOIN description_book on book_author.book_id=description_book.book_id
-    WHERE books.deleted=0 AND (books.title LIKE ? OR authors.author LIKE ?)
+    WHERE books.deleted IS NULL AND (books.title LIKE ? OR authors.author LIKE ?)
     GROUP BY books.id
     limit ? OFFSET 0;`,
 
@@ -62,12 +62,13 @@ const queryString = {
   description_book.year_book,
   description_book.clicks_wanted,
   description_book.image,
+  description_book.views,
   GROUP_CONCAT(authors.author SEPARATOR ', ') as authorsNames
   FROM book_author
   INNER JOIN books on book_author.book_id=books.id
   INNER JOIN authors on book_author.author_id=authors.id
   INNER JOIN description_book on book_author.book_id=description_book.book_id
-  where books.deleted=0
+  where books.deleted IS NULL
   GROUP BY books.id
   limit ? OFFSET ?;`,
 

@@ -1,190 +1,154 @@
 INSERT
-    IGNORE INTO `books` (`id`, `title`, `deleted`)
+    IGNORE INTO `books` (`id`, `title`)
 VALUES
     (
         22,
-        'Книга Програмування мовою С',
-        '0000-00-00 00:00:00.0'
+        'Книга Програмування мовою С'
     ),
     (
         23,
-        'Программирование на языке Go!',
-        '0000-00-00 00:00:00.0'
+        'Программирование на языке Go!'
     ),
     (
         25,
-        'Толковый словарь сетевых терминов и аббревиатур',
-        '0000-00-00 00:00:00.0'
+        'Толковый словарь сетевых терминов и аббревиатур'
     ),
     (
         26,
-        'Python for Data Analysis',
-        '0000-00-00 00:00:00.0'
+        'Python for Data Analysis'
     ),
     (
         27,
-        'Thinking in Java (4th Edition)',
-        '0000-00-00 00:00:00.0'
+        'Thinking in Java (4th Edition)'
     ),
     (
         29,
-        'Introduction to Algorithms',
-        '0000-00-00 00:00:00.0'
+        'Introduction to Algorithms'
     ),
     (
         31,
-        'JavaScript Pocket Reference',
-        '0000-00-00 00:00:00.0'
+        'JavaScript Pocket Reference'
     ),
     (
         32,
-        'Adaptive Code via C#: Class and Interface Design, Design Patterns, and SOLID Principles',
-        '0000-00-00 00:00:00.0'
+        'Adaptive Code via C#: Class and Interface Design, Design Patterns, and SOLID Principles'
     ),
     (
         33,
-        'SQL: The Complete Reference',
-        '0000-00-00 00:00:00.0'
+        'SQL: The Complete Reference'
     ),
     (
         34,
-        'PHP and MySQL Web Development',
-        '0000-00-00 00:00:00.0'
+        'PHP and MySQL Web Development'
     ),
     (
         35,
-        'Статистический анализ и визуализация данных с помощью R',
-        '0000-00-00 00:00:00.0'
+        'Статистический анализ и визуализация данных с помощью R'
     ),
     (
         36,
-        'Computer Coding for Kid',
-        '0000-00-00 00:00:00.0'
+        'Computer Coding for Kid'
     ),
     (
         37,
-        'Exploring Arduino: Tools and Techniques for Engineering Wizardry',
-        '0000-00-00 00:00:00.0'
+        'Exploring Arduino: Tools and Techniques for Engineering Wizardry'
     ),
     (
         38,
-        'Программирование микроконтроллеров для начинающих и не только',
-        '0000-00-00 00:00:00.0'
+        'Программирование микроконтроллеров для начинающих и не только'
     ),
     (
         39,
-        'The Internet of Things',
-        '0000-00-00 00:00:00.0'
+        'The Internet of Things'
     ),
     (
         40,
-        'Sketching User Experiences: The Workbook',
-        '0000-00-00 00:00:00.0'
+        'Sketching User Experiences: The Workbook'
     ),
-    (41, 'InDesign CS6', '0000-00-00 00:00:00.0'),
+    (41, 'InDesign CS6'),
     (
         42,
-        'Адаптивный дизайн. Делаем сайты для любых устройств',
-        '0000-00-00 00:00:00.0'
+        'Адаптивный дизайн. Делаем сайты для любых устройств'
     ),
     (
         43,
-        'Android для разработчиков',
-        '0000-00-00 00:00:00.0'
+        'Android для разработчиков'
     ),
     (
         44,
-        'Clean Code: A Handbook of Agile Software Craftsmanship',
-        '0000-00-00 00:00:00.0'
+        'Clean Code: A Handbook of Agile Software Craftsmanship'
     ),
     (
         45,
-        'Swift Pocket Reference: Programming for iOS and OS X',
-        '0000-00-00 00:00:00.0'
+        'Swift Pocket Reference: Programming for iOS and OS X'
     ),
     (
         46,
-        'NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence',
-        '0000-00-00 00:00:00.0'
+        'NoSQL Distilled: A Brief Guide to the Emerging World of Polyglot Persistence'
     ),
-    (47, 'Head First Ruby', '0000-00-00 00:00:00.0'),
-    (48, 'Practical Vim', '0000-00-00 00:00:00.0'),
+    (47, 'Head First Ruby'),
+    (48, 'Practical Vim'),
     (
         49,
-        'PYTHON для дітей. Веселий вступ до програмування',
-        '0000-00-00 00:00:00.0'
+        'PYTHON для дітей. Веселий вступ до програмування'
     ),
     (
         50,
-        'Програмування мовою Java',
-        '0000-00-00 00:00:00.0'
+        'Програмування мовою Java'
     ),
     (
         51,
-        'Чистий AGILE. Назад до основ',
-        '0000-00-00 00:00:00.0'
+        'Чистий AGILE. Назад до основ'
     ),
     (
         52,
-        'Програмування мовою Python',
-        '0000-00-00 00:00:00.0'
+        'Програмування мовою Python'
     ),
     (
         53,
-        'BIG DATA. Зброя математичного знищення. Як великі дані збільшують нерівність і загрожують демократії',
-        '0000-00-00 00:00:00.0'
+        'BIG DATA. Зброя математичного знищення. Як великі дані збільшують нерівність і загрожують демократії'
     ),
-    (54, 'Чиста архітектура', '0000-00-00 00:00:00.0'),
+    (54, 'Чиста архітектура'),
     (
         55,
-        'Head First. Python. Легкий для сприйняття довідник',
-        '0000-00-00 00:00:00.0'
+        'Head First. Python. Легкий для сприйняття довідник'
     ),
-    (56, 'Head First. Java', '0000-00-00 00:00:00.0'),
+    (56, 'Head First. Java'),
     (
         57,
-        'Програмування для дітей: Створюй анімації за допомогою Скретч',
-        '0000-00-00 00:00:00.0'
+        'Програмування для дітей: Створюй анімації за допомогою Скретч'
     ),
     (
         58,
-        'Head First. Патерни проєктування',
-        '0000-00-00 00:00:00.0'
+        'Head First. Патерни проєктування'
     ),
     (
         59,
-        'Computer Programming for Beginners: Fundamentals of Programming Terms and Concepts Kindle Edition',
-        '0000-00-00 00:00:00.0'
+        'Computer Programming for Beginners: Fundamentals of Programming Terms and Concepts Kindle Edition'
     ),
     (
         60,
-        'C#: Learn C# in One Day and Learn It Well. C# for Beginners with Hands-on Project',
-        '0000-00-00 00:00:00.0'
+        'C#: Learn C# in One Day and Learn It Well. C# for Beginners with Hands-on Project'
     ),
     (
         70,
-        'Domain-Driven Design: Tackling Complexity in the Heart of Software',
-        '0000-00-00 00:00:00.0'
+        'Domain-Driven Design: Tackling Complexity in the Heart of Software'
     ),
     (
         71,
-        'Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow ',
-        '0000-00-00 00:00:00.0'
+        'Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow '
     ),
     (
         72,
-        'Introduction to Algorithms',
-        '0000-00-00 00:00:00.0'
+        'Introduction to Algorithms'
     ),
     (
         102,
-        'Hábitos atómicos: Cambios pequeños, resultados extraordinarios (Autoconocimiento) (Spanish Edition) ',
-        '0000-00-00 00:00:00.0'
+        'Hábitos atómicos: Cambios pequeños, resultados extraordinarios (Autoconocimiento) (Spanish Edition) '
     ),
     (
         103,
-        'Python for Data Analysis',
-        '0000-00-00 00:00:00.0'
+        'Python for Data Analysis'
     );
 
 INSERT

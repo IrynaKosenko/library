@@ -30,9 +30,9 @@ app.use("/admin", routerAdmin);
   }
 })();
 
-(function startWork() {
-  createTables();
-  fillTables();
+(async function startWork() {
+  await createTables();
+  await fillTables();
 
   jobBackup.start();
   jobDeleteBook.start();

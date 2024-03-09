@@ -9,6 +9,57 @@ import queryString from "../queryStringSQL";
 import fileUpload from "express-fileupload";
 import path from "path";
 
+export async function getSearchedBooksFromDB(
+  search: string,
+  countOnPage: number,
+  numberOfPages: number,
+  currentPage: any,
+  res: Response
+) {
+  const books = await pool.query<IBook[]>(queryString.getSearchedBooks, [
+    "%" + search + "%",
+    "%" + search + "%",
+    countOnPage,
+  ]);
+
+  res.render("admin", {
+    books: books[0],
+    offset: 0,
+    limit: countOnPage > books[0].length ? books[0].length : countOnPage,
+    host: process.env.HOME_HOST,
+    title: "Admin Page",
+    search: search,
+    totalBooks: books[0].length,
+    numberOfPages: numberOfPages,
+    currentPage: currentPage,
+  });
+}
+
+export async function getBooksForAdminPage(
+  offset: number,
+  countOnPage: number,
+  totalBooks: number,
+  numberOfPages: number,
+  currentPage: any,
+  res: Response
+) {
+  const books = await pool.query<IBook[]>(queryString.getBooksForAdminPage, [
+    countOnPage,
+    offset,
+  ]);
+
+  res.render("admin", {
+    books: books[0],
+    offset: offset,
+    limit: countOnPage,
+    host: process.env.HOME_HOST,
+    title: "Admin Page",
+    search: "",
+    totalBooks: totalBooks,
+    numberOfPages: numberOfPages,
+    currentPage: currentPage,
+  });
+}
 export async function marksAsDeleted(id: string, res: Response) {
   await pool.query(queryString.markAsDeleted, id);
   const book = await pool.query<IBook[]>(queryString.getDeletedBookById, id);

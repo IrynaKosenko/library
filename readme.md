@@ -9,3 +9,6 @@ CREATE USER 'userIryna'@'%' IDENTIFIED by 'userIryna79&';
 GRANT ALL on library.* to 'userIryna'@'%' ;
  
 FLUSH PRIVILEGES;
+
+npm run build 
+npm run start

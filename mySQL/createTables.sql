@@ -2,7 +2,7 @@ use library;
 CREATE TABLE IF NOT EXISTS books(
     id integer not null AUTO_INCREMENT primary key,
     title varchar(100) not null,
-    deleted timestamp(1) default NULL
+    deleted TIMESTAMP NULL DEFAULT NULL
 );
 CREATE TABLE IF NOT EXISTS authors(
     id integer not null AUTO_INCREMENT primary key,
