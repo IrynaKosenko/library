@@ -56,29 +56,5 @@ services:
       MYSQL_PORT: ${MYSQL_PORT}
     restart: always
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www/:/var/www/certbot/:ro
-    depends_on:
-      - library
-    networks:
-      - library_network
-    restart: always
-
-  certbot:
-    image: certbot/certbot:latest
-    container_name: certbot
-    networks:
-      - library_network
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-
 volumes:
   myapp:
