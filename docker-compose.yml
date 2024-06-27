@@ -35,8 +35,8 @@ services:
       - mysql-db
 
   library:
-    #image: irynakos/school-library:latest
-    build: .
+    image: irynakos/school-library:latest
+    #build: .
     container_name: library
     command: bash -c 'while !</dev/tcp/mysql-db/3306; do sleep 1; done; npm start'   #if in containers
     ports:
